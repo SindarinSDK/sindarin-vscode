@@ -1,0 +1,64 @@
+{
+  "name": "sindarin",
+  "displayName": "Sindarin",
+  "description": "Language support for the Sindarin programming language",
+  "version": "0.1.0",
+  "publisher": "sindarin",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "sindarin",
+    "sn",
+    "programming language",
+    "syntax highlighting"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sindarin/sindarin-vscode"
+  },
+  "icon": "icons/sindarin-dark.svg",
+  "contributes": {
+    "languages": [
+      {
+        "id": "sindarin",
+        "aliases": [
+          "Sindarin",
+          "sn"
+        ],
+        "extensions": [
+          ".sn"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/sindarin-light.svg",
+          "dark": "./icons/sindarin-dark.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "sindarin",
+        "scopeName": "source.sindarin",
+        "path": "./syntaxes/sindarin.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "sindarin",
+        "path": "./snippets/sindarin.json"
+      }
+    ],
+    "configurationDefaults": {
+      "[sindarin]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false
+      }
+    }
+  }
+}

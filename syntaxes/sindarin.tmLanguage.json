@@ -1,0 +1,544 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Sindarin",
+  "scopeName": "source.sindarin",
+  "fileTypes": ["sn"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#pragmas" },
+    { "include": "#decorators" },
+    { "include": "#imports" },
+    { "include": "#type-declarations" },
+    { "include": "#struct-declarations" },
+    { "include": "#function-declarations" },
+    { "include": "#shared-loops" },
+    { "include": "#control-flow" },
+    { "include": "#keywords" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#operators" },
+    { "include": "#types" },
+    { "include": "#constants" },
+    { "include": "#function-calls" },
+    { "include": "#identifiers" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.sindarin",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.line.hash.sindarin",
+          "match": "#(?!pragma).*$"
+        },
+        {
+          "name": "comment.block.sindarin",
+          "begin": "/\\*",
+          "end": "\\*/",
+          "patterns": [
+            { "include": "#comments" }
+          ]
+        }
+      ]
+    },
+    "pragmas": {
+      "patterns": [
+        {
+          "name": "meta.preprocessor.pragma.sindarin",
+          "match": "^\\s*(#pragma)\\s+(include|link|source|pack)\\b(.*)$",
+          "captures": {
+            "1": { "name": "keyword.control.directive.pragma.sindarin" },
+            "2": { "name": "keyword.control.directive.pragma.type.sindarin" },
+            "3": {
+              "patterns": [
+                {
+                  "name": "string.quoted.angle.include.sindarin",
+                  "match": "<[^>]+>"
+                },
+                {
+                  "name": "string.quoted.double.include.sindarin",
+                  "match": "\"[^\"]+\""
+                },
+                {
+                  "name": "constant.numeric.pack.sindarin",
+                  "match": "\\([0-9]+\\)"
+                },
+                {
+                  "name": "entity.name.library.sindarin",
+                  "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "decorators": {
+      "patterns": [
+        {
+          "name": "meta.decorator.source.sindarin",
+          "match": "(@source)\\s+(\"[^\"]+\")",
+          "captures": {
+            "1": { "name": "keyword.control.directive.decorator.sindarin" },
+            "2": { "name": "string.quoted.double.sindarin" }
+          }
+        },
+        {
+          "name": "meta.decorator.alias.sindarin",
+          "match": "(@alias)\\s+(\"[^\"]+\")",
+          "captures": {
+            "1": { "name": "keyword.control.directive.decorator.sindarin" },
+            "2": { "name": "string.quoted.double.sindarin" }
+          }
+        },
+        {
+          "name": "meta.decorator.include.sindarin",
+          "match": "(@include)\\s+(<[^>]+>|\"[^\"]+\")",
+          "captures": {
+            "1": { "name": "keyword.control.directive.decorator.sindarin" },
+            "2": { "name": "string.quoted.include.sindarin" }
+          }
+        },
+        {
+          "name": "meta.decorator.link.sindarin",
+          "match": "(@link)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.control.directive.decorator.sindarin" },
+            "2": { "name": "entity.name.library.sindarin" }
+          }
+        }
+      ]
+    },
+    "imports": {
+      "patterns": [
+        {
+          "name": "meta.import.sindarin",
+          "match": "\\b(import)\\s+(\"[^\"]+\")(?:\\s+(as)\\s+([a-zA-Z_][a-zA-Z0-9_]*))?",
+          "captures": {
+            "1": { "name": "keyword.control.import.sindarin" },
+            "2": { "name": "string.quoted.double.module.sindarin" },
+            "3": { "name": "keyword.control.as.sindarin" },
+            "4": { "name": "entity.name.namespace.sindarin" }
+          }
+        }
+      ]
+    },
+    "type-declarations": {
+      "patterns": [
+        {
+          "name": "meta.type.declaration.sindarin",
+          "match": "\\b(type)\\s+([A-Z][a-zA-Z0-9_]*)\\s*=\\s*(opaque|native\\s+fn)",
+          "captures": {
+            "1": { "name": "keyword.other.type.sindarin" },
+            "2": { "name": "entity.name.type.sindarin" },
+            "3": { "name": "keyword.other.sindarin" }
+          }
+        },
+        {
+          "name": "meta.type.alias.sindarin",
+          "match": "\\b(type)\\s+([A-Z][a-zA-Z0-9_]*)\\s*=",
+          "captures": {
+            "1": { "name": "keyword.other.type.sindarin" },
+            "2": { "name": "entity.name.type.sindarin" }
+          }
+        }
+      ]
+    },
+    "struct-declarations": {
+      "patterns": [
+        {
+          "name": "meta.struct.declaration.sindarin",
+          "match": "\\b(native\\s+)?(struct)\\s+([A-Z][a-zA-Z0-9_]*)(?:\\s+(as)\\s+(ref))?",
+          "captures": {
+            "1": { "name": "storage.modifier.native.sindarin" },
+            "2": { "name": "keyword.other.struct.sindarin" },
+            "3": { "name": "entity.name.type.struct.sindarin" },
+            "4": { "name": "keyword.operator.as.sindarin" },
+            "5": { "name": "storage.modifier.sindarin" }
+          }
+        }
+      ]
+    },
+    "function-declarations": {
+      "patterns": [
+        {
+          "name": "meta.function.declaration.static.sindarin",
+          "begin": "\\b(static)\\s+(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.static.sindarin" },
+            "2": { "name": "keyword.other.fn.sindarin" },
+            "3": { "name": "entity.name.function.sindarin" }
+          },
+          "end": "\\)",
+          "patterns": [
+            { "include": "#function-parameters" }
+          ]
+        },
+        {
+          "name": "meta.function.declaration.sindarin",
+          "begin": "\\b(native\\s+)?(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.native.sindarin" },
+            "2": { "name": "keyword.other.fn.sindarin" },
+            "3": { "name": "entity.name.function.sindarin" }
+          },
+          "end": "\\)",
+          "patterns": [
+            { "include": "#function-parameters" }
+          ]
+        },
+        {
+          "name": "meta.function.modifier.sindarin",
+          "match": "\\)\\s*(shared|private)\\s*:",
+          "captures": {
+            "1": { "name": "storage.modifier.sindarin" }
+          }
+        }
+      ]
+    },
+    "function-parameters": {
+      "patterns": [
+        {
+          "name": "meta.parameter.sindarin",
+          "match": "([a-zA-Z_][a-zA-Z0-9_]*)\\s*:\\s*([^,)=]+?)(?:\\s+(as)\\s+(val|ref))?(?=\\s*[,)=])",
+          "captures": {
+            "1": { "name": "variable.parameter.sindarin" },
+            "2": {
+              "patterns": [
+                { "include": "#types" }
+              ]
+            },
+            "3": { "name": "keyword.operator.as.sindarin" },
+            "4": { "name": "storage.modifier.sindarin" }
+          }
+        },
+        {
+          "name": "punctuation.separator.comma.sindarin",
+          "match": ","
+        },
+        {
+          "name": "keyword.operator.variadic.sindarin",
+          "match": "\\.\\.\\."
+        }
+      ]
+    },
+    "shared-loops": {
+      "patterns": [
+        {
+          "name": "meta.shared-loop.sindarin",
+          "match": "\\b(shared)\\s+(for|while)\\b",
+          "captures": {
+            "1": { "name": "storage.modifier.sindarin" },
+            "2": { "name": "keyword.control.loop.sindarin" }
+          }
+        }
+      ]
+    },
+    "control-flow": {
+      "patterns": [
+        {
+          "name": "keyword.control.conditional.sindarin",
+          "match": "\\b(if|else)\\b"
+        },
+        {
+          "name": "keyword.control.loop.sindarin",
+          "match": "\\b(while|for|in)\\b"
+        },
+        {
+          "name": "keyword.control.flow.sindarin",
+          "match": "\\b(return|break|continue|panic)\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.other.declaration.sindarin",
+          "match": "\\b(var|fn|struct|native|type|import|static)\\b"
+        },
+        {
+          "name": "storage.modifier.sindarin",
+          "match": "\\b(shared|private|sync)\\b"
+        },
+        {
+          "name": "variable.language.sindarin",
+          "match": "\\b(self|arena)\\b"
+        },
+        {
+          "name": "keyword.operator.semantic.sindarin",
+          "match": "\\b(as)\\s+(val|ref)\\b",
+          "captures": {
+            "1": { "name": "keyword.operator.as.sindarin" },
+            "2": { "name": "storage.modifier.sindarin" }
+          }
+        },
+        {
+          "name": "keyword.operator.typecast.sindarin",
+          "match": "\\b(as)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.operator.as.sindarin" },
+            "2": { "name": "storage.type.sindarin" }
+          }
+        },
+        {
+          "name": "keyword.control.lock.sindarin",
+          "match": "\\b(lock)\\b"
+        },
+        {
+          "name": "keyword.other.opaque.sindarin",
+          "match": "\\b(opaque)\\b"
+        },
+        {
+          "name": "keyword.operator.sizeof.sindarin",
+          "match": "\\b(sizeof|len|typeof)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.primitive.sindarin",
+          "match": "\\b(int|long|int32|uint|uint32|double|float|str|char|byte|bool|void|any)\\b"
+        },
+        {
+          "name": "storage.type.builtin.sindarin",
+          "match": "\\b(TextFile|BinaryFile|Date|Time|Process|Random|UUID|TcpListener|TcpStream|UdpSocket|Interceptor|Env|Path|Directory|Bytes)\\b"
+        },
+        {
+          "name": "storage.type.function.sindarin",
+          "match": "\\bfn\\s*\\([^)]*\\)\\s*:\\s*[a-zA-Z_][a-zA-Z0-9_\\[\\]]*"
+        },
+        {
+          "name": "storage.type.array.sindarin",
+          "match": "\\[\\s*\\d*\\s*\\]"
+        },
+        {
+          "name": "storage.type.user.sindarin",
+          "match": "\\b[A-Z][a-zA-Z0-9_]*\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.true.sindarin",
+          "match": "\\btrue\\b"
+        },
+        {
+          "name": "constant.language.boolean.false.sindarin",
+          "match": "\\bfalse\\b"
+        },
+        {
+          "name": "constant.language.null.sindarin",
+          "match": "\\bnil\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.interpolated.sindarin",
+          "begin": "\\$\"",
+          "end": "\"",
+          "patterns": [
+            { "include": "#string-interpolation-with-format" },
+            { "include": "#string-escapes" }
+          ]
+        },
+        {
+          "name": "string.quoted.double.sindarin",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            { "include": "#string-escapes" }
+          ]
+        },
+        {
+          "name": "string.interpolated.multiline.sindarin",
+          "begin": "\\$\\|",
+          "end": "^(?=\\S)",
+          "patterns": [
+            { "include": "#string-interpolation-with-format" }
+          ]
+        },
+        {
+          "name": "string.multiline.sindarin",
+          "begin": "\\|$",
+          "end": "^(?=\\S)"
+        },
+        {
+          "name": "string.quoted.single.character.sindarin",
+          "match": "'(?:[^'\\\\]|\\\\.)'"
+        }
+      ]
+    },
+    "string-interpolation-with-format": {
+      "patterns": [
+        {
+          "name": "meta.interpolation.sindarin",
+          "begin": "\\{",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.interpolation.begin.sindarin" }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.interpolation.end.sindarin" }
+          },
+          "patterns": [
+            {
+              "name": "meta.format-specifier.sindarin",
+              "match": "(:[-+]?\\d*\\.?\\d*[dxXoefgsb]?)(?=\\})",
+              "captures": {
+                "1": { "name": "constant.other.format-spec.sindarin" }
+              }
+            },
+            { "include": "#strings" },
+            { "include": "#expressions" }
+          ]
+        }
+      ]
+    },
+    "string-escapes": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.sindarin",
+          "match": "\\\\[nrt\\\\\"'0]"
+        }
+      ]
+    },
+    "expressions": {
+      "patterns": [
+        { "include": "#numbers" },
+        { "include": "#operators" },
+        { "include": "#function-calls" },
+        { "include": "#constants" },
+        { "include": "#types" },
+        { "include": "#identifiers" }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.sindarin",
+          "match": "0[xX][0-9a-fA-F]+"
+        },
+        {
+          "name": "constant.numeric.binary.sindarin",
+          "match": "0[bB][01]+"
+        },
+        {
+          "name": "constant.numeric.float.sindarin",
+          "match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.long.sindarin",
+          "match": "\\b\\d+[lL]\\b"
+        },
+        {
+          "name": "constant.numeric.integer.sindarin",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arrow.sindarin",
+          "match": "=>"
+        },
+        {
+          "name": "keyword.operator.spread.sindarin",
+          "match": "\\.\\.\\."
+        },
+        {
+          "name": "keyword.operator.range.sindarin",
+          "match": "\\.\\."
+        },
+        {
+          "name": "keyword.operator.thread.spawn.sindarin",
+          "match": "&(?=[a-zA-Z_])"
+        },
+        {
+          "name": "keyword.operator.thread.sync.sindarin",
+          "match": "!"
+        },
+        {
+          "name": "keyword.operator.comparison.sindarin",
+          "match": "(==|!=|<=|>=|<|>)"
+        },
+        {
+          "name": "keyword.operator.logical.sindarin",
+          "match": "(&&|\\|\\||!(?![a-zA-Z]))"
+        },
+        {
+          "name": "keyword.operator.arithmetic.sindarin",
+          "match": "(\\+\\+|--|\\+=|-=|\\*=|/=|%=|\\+|-|\\*|/|%)"
+        },
+        {
+          "name": "keyword.operator.assignment.sindarin",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.member.sindarin",
+          "match": "\\."
+        },
+        {
+          "name": "keyword.operator.pointer.sindarin",
+          "match": "\\*(?=[a-zA-Z])"
+        },
+        {
+          "name": "keyword.operator.type-check.sindarin",
+          "match": "\\b(is)\\b"
+        }
+      ]
+    },
+    "function-calls": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.sindarin",
+          "match": "\\b(print|println|panic|assert|len|typeof)\\s*\\("
+        },
+        {
+          "name": "meta.function-call.method.sindarin",
+          "match": "\\.([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "captures": {
+            "1": { "name": "entity.name.function.method.sindarin" }
+          }
+        },
+        {
+          "name": "meta.function-call.static.sindarin",
+          "match": "([A-Z][a-zA-Z0-9_]*)\\.([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "captures": {
+            "1": { "name": "storage.type.sindarin" },
+            "2": { "name": "entity.name.function.static.sindarin" }
+          }
+        },
+        {
+          "name": "meta.function-call.namespaced.sindarin",
+          "match": "([a-z][a-zA-Z0-9_]*)\\.([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "captures": {
+            "1": { "name": "entity.name.namespace.sindarin" },
+            "2": { "name": "entity.name.function.sindarin" }
+          }
+        },
+        {
+          "name": "meta.function-call.sindarin",
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "captures": {
+            "1": { "name": "entity.name.function.sindarin" }
+          }
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "variable.other.sindarin",
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}

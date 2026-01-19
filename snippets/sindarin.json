@@ -1,0 +1,593 @@
+{
+  "Main Function": {
+    "prefix": "main",
+    "body": [
+      "fn main(): void =>",
+      "    $0"
+    ],
+    "description": "Main function entry point"
+  },
+  "Main Function with Return": {
+    "prefix": "mainret",
+    "body": [
+      "fn main(): int =>",
+      "    $0",
+      "    return 0"
+    ],
+    "description": "Main function with int return"
+  },
+  "Function": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:name}(${2:params}): ${3:void} =>",
+      "    ${0:// body}"
+    ],
+    "description": "Function declaration"
+  },
+  "Function Expression": {
+    "prefix": "fne",
+    "body": [
+      "fn ${1:name}(${2:a}: ${3:int}): ${4:int} => ${0:expression}"
+    ],
+    "description": "Expression-bodied function"
+  },
+  "Native Function": {
+    "prefix": "native",
+    "body": [
+      "native fn ${1:name}(${2:params}): ${3:void}"
+    ],
+    "description": "Native function declaration"
+  },
+  "Native Function with Body": {
+    "prefix": "nativefn",
+    "body": [
+      "native fn ${1:name}(${2:params}): ${3:void} =>",
+      "    ${0:// body}"
+    ],
+    "description": "Native function with implementation"
+  },
+  "Variable Declaration": {
+    "prefix": "var",
+    "body": [
+      "var ${1:name}: ${2:int} = ${0:value}"
+    ],
+    "description": "Variable declaration"
+  },
+  "Variable Array": {
+    "prefix": "vara",
+    "body": [
+      "var ${1:name}: ${2:int}[] = {${0}}"
+    ],
+    "description": "Array variable declaration"
+  },
+  "Struct": {
+    "prefix": "struct",
+    "body": [
+      "struct ${1:Name} =>",
+      "    ${2:field}: ${3:int}",
+      "    $0"
+    ],
+    "description": "Struct declaration"
+  },
+  "Native Struct": {
+    "prefix": "nativestruct",
+    "body": [
+      "native struct ${1:Name} =>",
+      "    ${2:field}: ${3:*byte}",
+      "    $0"
+    ],
+    "description": "Native struct for C interop"
+  },
+  "Struct with Defaults": {
+    "prefix": "structd",
+    "body": [
+      "struct ${1:Config} =>",
+      "    ${2:field}: ${3:int} = ${4:0}",
+      "    $0"
+    ],
+    "description": "Struct with default field values"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} =>",
+      "    ${0:// body}"
+    ],
+    "description": "If statement"
+  },
+  "If-Else Statement": {
+    "prefix": "ife",
+    "body": [
+      "if ${1:condition} =>",
+      "    ${2:// then}",
+      "else =>",
+      "    ${0:// else}"
+    ],
+    "description": "If-else statement"
+  },
+  "If-Else If Statement": {
+    "prefix": "ifeif",
+    "body": [
+      "if ${1:condition1} =>",
+      "    ${2:// then}",
+      "else if ${3:condition2} =>",
+      "    ${4:// else if}",
+      "else =>",
+      "    ${0:// else}"
+    ],
+    "description": "If-else if-else statement"
+  },
+  "While Loop": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition} =>",
+      "    ${0:// body}"
+    ],
+    "description": "While loop"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "for var ${1:i}: int = ${2:0}; ${1:i} < ${3:10}; ${1:i}++ =>",
+      "    ${0:// body}"
+    ],
+    "description": "For loop with counter"
+  },
+  "For-Each Loop": {
+    "prefix": "foreach",
+    "body": [
+      "for ${1:item} in ${2:items} =>",
+      "    ${0:// body}"
+    ],
+    "description": "For-each loop"
+  },
+  "For-Each with Index": {
+    "prefix": "foreachi",
+    "body": [
+      "for var ${1:i}: int = 0; ${1:i} < ${2:items}.length; ${1:i}++ =>",
+      "    var ${3:item}: ${4:int} = ${2:items}[${1:i}]",
+      "    ${0:// body}"
+    ],
+    "description": "For-each loop with index"
+  },
+  "Print": {
+    "prefix": "print",
+    "body": [
+      "print(${0:\"message\\n\"})"
+    ],
+    "description": "Print statement"
+  },
+  "Print Interpolated": {
+    "prefix": "printf",
+    "body": [
+      "print($$\"${1:message}: {${2:value}}\\n\")"
+    ],
+    "description": "Print with string interpolation"
+  },
+  "String Interpolation": {
+    "prefix": "str",
+    "body": [
+      "$$\"${1:text} {${2:expr}}${0}\""
+    ],
+    "description": "Interpolated string"
+  },
+  "Multiline String": {
+    "prefix": "strm",
+    "body": [
+      "|",
+      "    ${0:content}"
+    ],
+    "description": "Multiline string with pipe"
+  },
+  "Multiline Interpolated String": {
+    "prefix": "strmi",
+    "body": [
+      "$$|",
+      "    ${0:content with {expr}}"
+    ],
+    "description": "Multiline interpolated string"
+  },
+  "Lambda": {
+    "prefix": "lambda",
+    "body": [
+      "fn(${1:x}: ${2:int}): ${3:int} => ${0:expression}"
+    ],
+    "description": "Lambda expression"
+  },
+  "Lambda Multi-line": {
+    "prefix": "lambdam",
+    "body": [
+      "fn(${1:x}: ${2:int}): ${3:int} =>",
+      "    ${0:// body}"
+    ],
+    "description": "Multi-line lambda"
+  },
+  "Import": {
+    "prefix": "import",
+    "body": [
+      "import \"${1:module}\""
+    ],
+    "description": "Import module"
+  },
+  "Import with Namespace": {
+    "prefix": "importas",
+    "body": [
+      "import \"${1:module}\" as ${2:ns}"
+    ],
+    "description": "Import module with namespace"
+  },
+  "Pragma Include": {
+    "prefix": "include",
+    "body": [
+      "#pragma include <${1:header}.h>"
+    ],
+    "description": "Include C header"
+  },
+  "Pragma Link": {
+    "prefix": "link",
+    "body": [
+      "#pragma link ${1:library}"
+    ],
+    "description": "Link C library"
+  },
+  "Pragma Source": {
+    "prefix": "source",
+    "body": [
+      "#pragma source \"${1:file.c}\""
+    ],
+    "description": "Compile additional C source file"
+  },
+  "Shared Function": {
+    "prefix": "fnshared",
+    "body": [
+      "fn ${1:name}(${2:params}) shared: ${3:int} =>",
+      "    ${0:// body}"
+    ],
+    "description": "Function using caller's arena"
+  },
+  "Private Block": {
+    "prefix": "private",
+    "body": [
+      "private =>",
+      "    ${0:// isolated arena}"
+    ],
+    "description": "Private block with isolated arena"
+  },
+  "Shared Block": {
+    "prefix": "shared",
+    "body": [
+      "shared =>",
+      "    ${0:// uses parent arena}"
+    ],
+    "description": "Shared block using parent arena"
+  },
+  "Thread Spawn": {
+    "prefix": "spawn",
+    "body": [
+      "var ${1:result}: ${2:int} = &${3:function}(${4:args})"
+    ],
+    "description": "Spawn thread for function"
+  },
+  "Thread Spawn and Sync": {
+    "prefix": "spawnsync",
+    "body": [
+      "var ${1:result}: ${2:int} = &${3:function}(${4:args})!"
+    ],
+    "description": "Spawn thread and immediately sync"
+  },
+  "Sync Variable": {
+    "prefix": "sync",
+    "body": [
+      "var ${1:counter}: sync int = ${0:0}"
+    ],
+    "description": "Atomic sync variable"
+  },
+  "Lock Block": {
+    "prefix": "lock",
+    "body": [
+      "lock(${1:syncVar}) =>",
+      "    ${0:// critical section}"
+    ],
+    "description": "Lock block for atomic operations"
+  },
+  "Read File": {
+    "prefix": "readfile",
+    "body": [
+      "var ${1:content}: str = TextFile.readAll(\"${2:path}\")"
+    ],
+    "description": "Read entire file contents"
+  },
+  "Write File": {
+    "prefix": "writefile",
+    "body": [
+      "TextFile.writeAll(\"${1:path}\", ${2:content})"
+    ],
+    "description": "Write content to file"
+  },
+  "Opaque Type": {
+    "prefix": "opaque",
+    "body": [
+      "type ${1:Handle} = opaque"
+    ],
+    "description": "Opaque type for C interop"
+  },
+  "Native Callback Type": {
+    "prefix": "callback",
+    "body": [
+      "type ${1:Callback} = native fn(${2:arg}: ${3:int}): ${4:void}"
+    ],
+    "description": "Native callback type for C interop"
+  },
+  "Array Range": {
+    "prefix": "range",
+    "body": [
+      "${1:start}..${0:end}"
+    ],
+    "description": "Range literal for arrays"
+  },
+  "Array Slice": {
+    "prefix": "slice",
+    "body": [
+      "${1:array}[${2:start}..${3:end}]"
+    ],
+    "description": "Array slice"
+  },
+  "Struct Instance": {
+    "prefix": "new",
+    "body": [
+      "${1:StructName} { ${2:field}: ${0:value} }"
+    ],
+    "description": "Create struct instance"
+  },
+  "Panic": {
+    "prefix": "panic",
+    "body": [
+      "panic(\"${0:error message}\")"
+    ],
+    "description": "Panic with message"
+  },
+  "Assert": {
+    "prefix": "assert",
+    "body": [
+      "assert(${1:condition}, \"${0:message}\")"
+    ],
+    "description": "Assert condition"
+  },
+  "Date Now": {
+    "prefix": "datenow",
+    "body": [
+      "var ${1:date}: Date = Date.now()"
+    ],
+    "description": "Get current date"
+  },
+  "Time Now": {
+    "prefix": "timenow",
+    "body": [
+      "var ${1:time}: Time = Time.now()"
+    ],
+    "description": "Get current time"
+  },
+  "Random Integer": {
+    "prefix": "randint",
+    "body": [
+      "var ${1:n}: int = Random.int(${2:0}, ${0:100})"
+    ],
+    "description": "Generate random integer"
+  },
+  "UUID": {
+    "prefix": "uuid",
+    "body": [
+      "var ${1:id}: UUID = UUID.generate()"
+    ],
+    "description": "Generate UUID"
+  },
+  "Process Run": {
+    "prefix": "exec",
+    "body": [
+      "var ${1:result}: str = Process.run(\"${0:command}\")"
+    ],
+    "description": "Execute shell command"
+  },
+  "Env Get": {
+    "prefix": "env",
+    "body": [
+      "var ${1:value}: str = Env.get(\"${0:VAR_NAME}\")"
+    ],
+    "description": "Get environment variable"
+  },
+  "Interceptor Register": {
+    "prefix": "intercept",
+    "body": [
+      "fn ${1:myInterceptor}(name: str, args: any[], continue_fn: fn(): any): any =>",
+      "    ${2:// handle interception}",
+      "    var result: any = continue_fn()",
+      "    return result",
+      "",
+      "Interceptor.register(${1:myInterceptor})"
+    ],
+    "description": "Register function interceptor"
+  },
+  "Shared For Loop": {
+    "prefix": "sharedfor",
+    "body": [
+      "shared for var ${1:i}: int = ${2:0}; ${1:i} < ${3:10}; ${1:i}++ =>",
+      "    ${0:// body}"
+    ],
+    "description": "Shared for loop (same arena for all iterations)"
+  },
+  "Shared While Loop": {
+    "prefix": "sharedwhile",
+    "body": [
+      "shared while ${1:condition} =>",
+      "    ${0:// body}"
+    ],
+    "description": "Shared while loop (same arena for all iterations)"
+  },
+  "Shared For-Each Loop": {
+    "prefix": "sharedforeach",
+    "body": [
+      "shared for ${1:item} in ${2:items} =>",
+      "    ${0:// body}"
+    ],
+    "description": "Shared for-each loop (same arena for all iterations)"
+  },
+  "Private Function": {
+    "prefix": "fnprivate",
+    "body": [
+      "fn ${1:name}(${2:params}) private: ${3:int} =>",
+      "    ${0:// body}"
+    ],
+    "description": "Function with isolated arena"
+  },
+  "Variable as ref": {
+    "prefix": "varref",
+    "body": [
+      "var ${1:name}: ${2:int} as ref = ${0:value}"
+    ],
+    "description": "Heap-allocated variable (reference semantics)"
+  },
+  "Variable as val": {
+    "prefix": "varval",
+    "body": [
+      "var ${1:name}: ${2:int}[] as val = ${0:original}"
+    ],
+    "description": "Deep copy variable (value semantics)"
+  },
+  "Any Type Check": {
+    "prefix": "anyis",
+    "body": [
+      "if ${1:value} is ${2:int} =>",
+      "    var ${3:typed}: ${2:int} = ${1:value} as ${2:int}",
+      "    ${0:// use typed value}"
+    ],
+    "description": "Type check and cast any value"
+  },
+  "Format Specifier Float": {
+    "prefix": "fmtf",
+    "body": [
+      "{${1:value}:.${2:2}f}"
+    ],
+    "description": "Float format specifier with precision"
+  },
+  "Format Specifier Hex": {
+    "prefix": "fmtx",
+    "body": [
+      "{${1:value}:${2:x}}"
+    ],
+    "description": "Hexadecimal format specifier"
+  },
+  "Format Specifier Padded": {
+    "prefix": "fmtd",
+    "body": [
+      "{${1:value}:${2:05}d}"
+    ],
+    "description": "Zero-padded integer format specifier"
+  },
+  "Println": {
+    "prefix": "println",
+    "body": [
+      "println(${0:\"message\"})"
+    ],
+    "description": "Print with newline"
+  },
+  "Typeof": {
+    "prefix": "typeof",
+    "body": [
+      "typeof ${0:value}"
+    ],
+    "description": "Get type tag of value"
+  },
+  "Decorator Alias": {
+    "prefix": "@alias",
+    "body": [
+      "@alias \"${0:c_name}\""
+    ],
+    "description": "Map to C function/type name"
+  },
+  "Decorator Source": {
+    "prefix": "@source",
+    "body": [
+      "@source \"${0:file.c}\""
+    ],
+    "description": "Compile additional C source file"
+  },
+  "Decorator Include": {
+    "prefix": "@include",
+    "body": [
+      "@include <${0:header}.h>"
+    ],
+    "description": "Include C header file"
+  },
+  "Decorator Link": {
+    "prefix": "@link",
+    "body": [
+      "@link ${0:library}"
+    ],
+    "description": "Link C library"
+  },
+  "Native Struct with Ref": {
+    "prefix": "nativestructref",
+    "body": [
+      "@alias \"${1:CTypeName}\"",
+      "native struct ${2:Name} as ref =>",
+      "    @alias \"${3:c_field}\"",
+      "    _${4:field}: ${5:*void}",
+      "    $0"
+    ],
+    "description": "Native struct with C interop (by reference)"
+  },
+  "Static Function": {
+    "prefix": "staticfn",
+    "body": [
+      "static fn ${1:name}(${2:params}): ${3:Type} =>",
+      "    return ${0:value}"
+    ],
+    "description": "Static method in struct"
+  },
+  "Native Method with Alias": {
+    "prefix": "nativemethod",
+    "body": [
+      "@alias \"${1:c_function_name}\"",
+      "native fn ${2:methodName}(${3:params}): ${0:ReturnType}"
+    ],
+    "description": "Native method with C alias"
+  },
+  "SDK Style Struct": {
+    "prefix": "sdkstruct",
+    "body": [
+      "@alias \"Rt${1:Name}\"",
+      "native struct ${1:Name} as ref =>",
+      "    @alias \"${2:field}\"",
+      "    _${2:field}: ${3:*void}",
+      "",
+      "    static fn create(): ${1:Name} =>",
+      "        return sn_${4:name}_create(arena)",
+      "",
+      "    @alias \"sn_${4:name}_${5:method}\"",
+      "    native fn ${5:method}(): ${6:void}",
+      "$0"
+    ],
+    "description": "SDK-style native struct with static factory"
+  },
+  "Arena Allocation": {
+    "prefix": "arena",
+    "body": [
+      "arena"
+    ],
+    "description": "Current memory arena"
+  },
+  "Self Reference": {
+    "prefix": "self",
+    "body": [
+      "self"
+    ],
+    "description": "Current struct instance"
+  },
+  "Sized Array Declaration": {
+    "prefix": "varsize",
+    "body": [
+      "var ${1:name}: ${2:byte}[${3:size}]"
+    ],
+    "description": "Variable-sized array declaration"
+  }
+}
