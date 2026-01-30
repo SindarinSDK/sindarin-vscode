@@ -42,15 +42,14 @@ ln -s /path/to/sindarin-vscode ~/.vscode/extensions/sindarin
 
 Full syntax highlighting support including:
 
-- **Keywords**: `fn`, `native`, `var`, `struct`, `import`, `type`, `if`, `else`, `while`, `for`, `return`, `break`, `continue`, `panic`
+- **Keywords**: `fn`, `native`, `var`, `struct`, `import`, `type`, `if`, `else`, `match`, `while`, `for`, `return`, `break`, `continue`, `panic`, `intercept`
 - **Modifiers**: `shared`, `private`, `sync`, `as val`, `as ref`
-- **Types**: Primitives (`int`, `long`, `double`, `str`, `bool`, `char`, `byte`, `void`, `any`) and built-in types (`TextFile`, `Date`, `Time`, `UUID`, etc.)
+- **Types**: Primitives (`int`, `long`, `double`, `str`, `bool`, `char`, `byte`, `void`, `any`) and built-in SDK types (`TextFile`, `BinaryFile`, `Date`, `Time`, `UUID`, `TcpListener`, `TcpStream`, `TlsStream`, `UdpSocket`, `SshConnection`, `GitRepo`, `Math`, `Crypto`, `Json`, `OS`, etc.)
 - **Operators**: Arrow blocks (`=>`), range (`..`), spread (`...`), thread spawn (`&`), sync (`!`), type check (`is`), type cast (`as`)
 - **String interpolation**: `$"Hello, {name}!"` with format specifiers like `{pi:.2f}`, `{num:x}`, `{count:05d}`
 - **Multi-line strings**: Both `$"..."` spanning lines and `$|` block syntax
 - **Pragmas**: `#pragma include`, `#pragma link`, `#pragma source`, `#pragma pack`
 - **Comments**: Single-line `//`, hash comments `#`, and block `/* */`
-- **Shared loops**: `shared for`, `shared while` for arena-efficient iteration
 - **Any type**: `typeof`, `is` type checking, `as` type casting
 - **Decorators**: `@alias`, `@source`, `@include`, `@link` for C interop
 - **Static methods**: `static fn` inside struct definitions
@@ -58,7 +57,7 @@ Full syntax highlighting support including:
 
 ### Code Snippets
 
-Over 75 snippets for common patterns:
+Over 80 snippets for common patterns:
 
 | Prefix | Description |
 |--------|-------------|
@@ -70,12 +69,18 @@ Over 75 snippets for common patterns:
 | `nativestructref`, `sdkstruct` | SDK-style native structs |
 | `var`, `varref`, `varval`, `varsize` | Variable declarations |
 | `if`, `ife`, `ifeif` | Conditional statements |
+| `match`, `matchexpr` | Pattern matching |
 | `for`, `foreach`, `while` | Loop statements |
-| `sharedfor`, `sharedwhile` | Shared arena loops |
 | `print`, `println`, `printf` | Print statements |
+| `printerr`, `printerrln` | Error output |
+| `readline` | Read from stdin |
 | `lambda`, `lambdam` | Lambda expressions |
 | `spawn`, `spawnsync`, `lock` | Threading primitives |
 | `import`, `importas` | Module imports |
+| `tcpserver`, `tcpclient`, `tlsclient` | Networking |
+| `ssh`, `git` | Remote operations |
+| `json`, `sha256` | Data processing |
+| `oscheck`, `envdefault` | System utilities |
 | `@alias`, `@source`, `@include`, `@link` | Decorators for C interop |
 | `anyis`, `typeof` | Any type operations |
 | `self`, `arena` | Special variables |
@@ -97,15 +102,16 @@ Custom file icons for `.sn` files in both light and dark themes.
 
 ```sindarin
 import "utils" as util
+import "sdk/core/math" as math
 
 struct Point =>
     x: double
     y: double
 
-fn distance(a: Point, b: Point) shared: double =>
+shared fn distance(a: Point, b: Point): double =>
     var dx: double = b.x - a.x
     var dy: double = b.y - a.y
-    return sqrt(dx * dx + dy * dy)
+    return math.sqrt(dx * dx + dy * dy)
 
 fn main(): void =>
     var p1: Point = Point { x: 0.0, y: 0.0 }
@@ -115,16 +121,20 @@ fn main(): void =>
     var dist: double = distance(p1, p2)
     print($"Distance: {dist:.2f}\n")
 
+    // Pattern matching with match expression
+    var status: int = 200
+    var message: str = match status =>
+        200 => "OK"
+        404 => "Not Found"
+        500 => "Server Error"
+        else => "Unknown"
+    println(message)
+
     // Threading example
     var result: int = &compute(42)
     // ... do other work ...
     result!  // sync
     print($"Result: {result}\n")
-
-    // Shared loop for efficiency
-    var sum: int = 0
-    shared for var i: int = 0; i < 100; i++ =>
-        sum = sum + i
 
     // Any type with type checking
     var value: any = 42
@@ -183,7 +193,7 @@ This extension automatically sets the following defaults for Sindarin files:
 
 ```json
 {
-  "editor.tabSize": 4,
+  "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.detectIndentation": false
 }
@@ -203,10 +213,22 @@ MIT License
 
 ## Release Notes
 
+### 0.2.0
+
+- Changed default tab size from 4 to 2
+- Added `match` keyword support for pattern matching
+- Added `shared fn` and `private fn` function declaration patterns
+- Added `intercept` keyword for function interceptors
+- Improved namespace support (type access, property access, static method calls)
+- Added SDK types: `TlsStream`, `SshConnection`, `QuicConnection`, `GitRepo`, `Math`, `Crypto`, `Json`, `Xml`, `Yaml`, `ZLib`, `OS`, `Environment`, and more
+- Added built-in functions: `printErr`, `printErrLn`, `readLine`
+- Fixed `fnshared`/`fnprivate` snippets to use correct syntax
+- Added 15+ new snippets for networking, SSH, Git, JSON, and system utilities
+
 ### 0.1.0
 
 - Initial release
 - Syntax highlighting for all language features
-- 50+ code snippets
+- 70+ code snippets
 - Language configuration with bracket matching and folding
 - Custom file icons

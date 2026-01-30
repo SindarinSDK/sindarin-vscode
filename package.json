@@ -2,7 +2,7 @@
   "name": "sindarin",
   "displayName": "Sindarin",
   "description": "Language support for the Sindarin programming language",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "sindarin",
   "license": "MIT",
   "engines": {

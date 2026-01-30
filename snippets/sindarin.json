@@ -427,30 +427,6 @@
     ],
     "description": "Register function interceptor"
   },
-  "Shared For Loop": {
-    "prefix": "sharedfor",
-    "body": [
-      "shared for var ${1:i}: int = ${2:0}; ${1:i} < ${3:10}; ${1:i}++ =>",
-      "    ${0:// body}"
-    ],
-    "description": "Shared for loop (same arena for all iterations)"
-  },
-  "Shared While Loop": {
-    "prefix": "sharedwhile",
-    "body": [
-      "shared while ${1:condition} =>",
-      "    ${0:// body}"
-    ],
-    "description": "Shared while loop (same arena for all iterations)"
-  },
-  "Shared For-Each Loop": {
-    "prefix": "sharedforeach",
-    "body": [
-      "shared for ${1:item} in ${2:items} =>",
-      "    ${0:// body}"
-    ],
-    "description": "Shared for-each loop (same arena for all iterations)"
-  },
   "Private Function": {
     "prefix": "fnprivate",
     "body": [
