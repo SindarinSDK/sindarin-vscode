@@ -19,6 +19,7 @@
     { "include": "#operators" },
     { "include": "#types" },
     { "include": "#constants" },
+    { "include": "#namespace-access" },
     { "include": "#function-calls" },
     { "include": "#identifiers" }
   ],
@@ -177,6 +178,32 @@
           ]
         },
         {
+          "name": "meta.function.declaration.shared.sindarin",
+          "begin": "\\b(shared)\\s+(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.shared.sindarin" },
+            "2": { "name": "keyword.other.fn.sindarin" },
+            "3": { "name": "entity.name.function.sindarin" }
+          },
+          "end": "\\)",
+          "patterns": [
+            { "include": "#function-parameters" }
+          ]
+        },
+        {
+          "name": "meta.function.declaration.private.sindarin",
+          "begin": "\\b(private)\\s+(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "beginCaptures": {
+            "1": { "name": "storage.modifier.private.sindarin" },
+            "2": { "name": "keyword.other.fn.sindarin" },
+            "3": { "name": "entity.name.function.sindarin" }
+          },
+          "end": "\\)",
+          "patterns": [
+            { "include": "#function-parameters" }
+          ]
+        },
+        {
           "name": "meta.function.declaration.sindarin",
           "begin": "\\b(native\\s+)?(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
           "beginCaptures": {
@@ -240,7 +267,7 @@
       "patterns": [
         {
           "name": "keyword.control.conditional.sindarin",
-          "match": "\\b(if|else)\\b"
+          "match": "\\b(if|else|match)\\b"
         },
         {
           "name": "keyword.control.loop.sindarin",
@@ -256,7 +283,7 @@
       "patterns": [
         {
           "name": "keyword.other.declaration.sindarin",
-          "match": "\\b(var|fn|struct|native|type|import|static)\\b"
+          "match": "\\b(var|fn|struct|native|type|import|static|intercept)\\b"
         },
         {
           "name": "storage.modifier.sindarin",
@@ -304,7 +331,7 @@
         },
         {
           "name": "storage.type.builtin.sindarin",
-          "match": "\\b(TextFile|BinaryFile|Date|Time|Process|Random|UUID|TcpListener|TcpStream|UdpSocket|Interceptor|Env|Path|Directory|Bytes)\\b"
+          "match": "\\b(TextFile|BinaryFile|Date|Time|Process|Random|UUID|TcpListener|TcpStream|TlsStream|UdpSocket|DtlsConnection|SshConnection|QuicConnection|GitRepo|Interceptor|Env|Environment|Path|Directory|Bytes|Math|Crypto|Json|Xml|Yaml|ZLib|OS|Stdin|Stdout|Stderr)\\b"
         },
         {
           "name": "storage.type.function.sindarin",
@@ -494,17 +521,46 @@
         }
       ]
     },
+    "namespace-access": {
+      "patterns": [
+        {
+          "name": "meta.namespace.type-access.sindarin",
+          "match": "([a-z][a-zA-Z0-9_]*)\\.([A-Z][a-zA-Z0-9_]*)(?!\\.\\s*[a-zA-Z_][a-zA-Z0-9_]*\\s*\\()(?!\\s*\\()",
+          "captures": {
+            "1": { "name": "entity.name.namespace.sindarin" },
+            "2": { "name": "storage.type.sindarin" }
+          }
+        },
+        {
+          "name": "meta.namespace.property-access.sindarin",
+          "match": "([a-z][a-zA-Z0-9_]*)\\.([a-z][a-zA-Z0-9_]*)(?!\\s*\\()",
+          "captures": {
+            "1": { "name": "entity.name.namespace.sindarin" },
+            "2": { "name": "variable.other.property.sindarin" }
+          }
+        }
+      ]
+    },
     "function-calls": {
       "patterns": [
         {
           "name": "support.function.builtin.sindarin",
-          "match": "\\b(print|println|panic|assert|len|typeof)\\s*\\("
+          "match": "\\b(print|println|printErr|printErrLn|readLine|panic|assert|len|typeof)\\s*\\("
         },
         {
           "name": "meta.function-call.method.sindarin",
           "match": "\\.([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
           "captures": {
             "1": { "name": "entity.name.function.method.sindarin" }
+          }
+        },
+        {
+          "name": "meta.function-call.namespaced-static.sindarin",
+          "match": "([a-z][a-zA-Z0-9_]*)\\.([A-Z][a-zA-Z0-9_]*)\\.([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\(",
+          "captures": {
+            "1": { "name": "entity.name.namespace.sindarin" },
+            "2": { "name": "storage.type.sindarin" },
+            "3": { "name": "entity.name.function.static.sindarin" }
           }
         },
         {

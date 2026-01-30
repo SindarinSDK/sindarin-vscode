@@ -117,6 +117,26 @@
     ],
     "description": "If-else if-else statement"
   },
+  "Match Statement": {
+    "prefix": "match",
+    "body": [
+      "match ${1:value} =>",
+      "    ${2:case1} => ${3:result1}",
+      "    ${4:case2} => ${5:result2}",
+      "    else => ${0:default}"
+    ],
+    "description": "Match expression for pattern matching"
+  },
+  "Match Expression": {
+    "prefix": "matchexpr",
+    "body": [
+      "var ${1:result}: ${2:str} = match ${3:value} =>",
+      "    ${4:case1} => ${5:\"result1\"}",
+      "    ${6:case2} => ${7:\"result2\"}",
+      "    else => ${0:\"default\"}"
+    ],
+    "description": "Match as expression with assignment"
+  },
   "While Loop": {
     "prefix": "while",
     "body": [
@@ -240,7 +260,7 @@
   "Shared Function": {
     "prefix": "fnshared",
     "body": [
-      "fn ${1:name}(${2:params}) shared: ${3:int} =>",
+      "shared fn ${1:name}(${2:params}): ${3:int} =>",
       "    ${0:// body}"
     ],
     "description": "Function using caller's arena"
@@ -434,7 +454,7 @@
   "Private Function": {
     "prefix": "fnprivate",
     "body": [
-      "fn ${1:name}(${2:params}) private: ${3:int} =>",
+      "private fn ${1:name}(${2:params}): ${3:int} =>",
       "    ${0:// body}"
     ],
     "description": "Function with isolated arena"
@@ -489,6 +509,27 @@
       "println(${0:\"message\"})"
     ],
     "description": "Print with newline"
+  },
+  "Print Error": {
+    "prefix": "printerr",
+    "body": [
+      "printErr(${0:\"error message\\n\"})"
+    ],
+    "description": "Print to stderr"
+  },
+  "Print Error Line": {
+    "prefix": "printerrln",
+    "body": [
+      "printErrLn(${0:\"error message\"})"
+    ],
+    "description": "Print to stderr with newline"
+  },
+  "Read Line": {
+    "prefix": "readline",
+    "body": [
+      "var ${1:input}: str = readLine()"
+    ],
+    "description": "Read line from stdin"
   },
   "Typeof": {
     "prefix": "typeof",
@@ -589,5 +630,79 @@
       "var ${1:name}: ${2:byte}[${3:size}]"
     ],
     "description": "Variable-sized array declaration"
+  },
+  "TCP Server": {
+    "prefix": "tcpserver",
+    "body": [
+      "var ${1:listener}: TcpListener = TcpListener.bind(\"${2:0.0.0.0}\", ${3:8080})",
+      "while true =>",
+      "    var ${4:conn}: TcpStream = ${1:listener}.accept()",
+      "    ${0:// handle connection}"
+    ],
+    "description": "TCP server listener"
+  },
+  "TCP Client": {
+    "prefix": "tcpclient",
+    "body": [
+      "var ${1:conn}: TcpStream = TcpStream.connect(\"${2:localhost}\", ${3:8080})",
+      "${0:// use connection}"
+    ],
+    "description": "TCP client connection"
+  },
+  "TLS Client": {
+    "prefix": "tlsclient",
+    "body": [
+      "var ${1:conn}: TlsStream = TlsStream.connect(\"${2:example.com}\", ${3:443})",
+      "${0:// use encrypted connection}"
+    ],
+    "description": "TLS encrypted connection"
+  },
+  "SSH Connection": {
+    "prefix": "ssh",
+    "body": [
+      "var ${1:ssh}: SshConnection = SshConnection.connectPassword(\"${2:host}\", ${3:22}, \"${4:user}\", \"${5:password}\")",
+      "var ${6:output}: str = ${1:ssh}.run(\"${0:command}\")"
+    ],
+    "description": "SSH remote command execution"
+  },
+  "Git Repository": {
+    "prefix": "git",
+    "body": [
+      "var ${1:repo}: GitRepo = GitRepo.open(\"${2:.}\")",
+      "${0:// use git repo}"
+    ],
+    "description": "Open Git repository"
+  },
+  "JSON Parse": {
+    "prefix": "json",
+    "body": [
+      "var ${1:data}: Json = Json.parse(${2:jsonString})",
+      "${0:// use parsed JSON}"
+    ],
+    "description": "Parse JSON string"
+  },
+  "Crypto SHA256": {
+    "prefix": "sha256",
+    "body": [
+      "var ${1:hash}: str = Crypto.sha256Str(${0:data})"
+    ],
+    "description": "Calculate SHA256 hash"
+  },
+  "OS Check": {
+    "prefix": "oscheck",
+    "body": [
+      "if OS.isWindows() =>",
+      "    ${1:// Windows specific}",
+      "else if OS.isUnix() =>",
+      "    ${0:// Unix/Linux/Mac specific}"
+    ],
+    "description": "OS-specific code branches"
+  },
+  "Environment Variable with Default": {
+    "prefix": "envdefault",
+    "body": [
+      "var ${1:value}: str = Environment.getOr(\"${2:VAR_NAME}\", \"${0:default}\")"
+    ],
+    "description": "Get environment variable with default"
   }
 }
