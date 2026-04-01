@@ -25,7 +25,7 @@
   ],
   "folding": {
     "markers": {
-      "start": "^\\s*(fn|struct|if|else|while|for|lock|shared|private|match)\\b.*=>\\s*$",
+      "start": "^\\s*(fn|struct|interface|if|else|while|for|lock|shared|private|match|using)\\b.*=>\\s*$",
       "end": "^(?=\\S)"
     }
   },

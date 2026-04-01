@@ -680,5 +680,135 @@
       "var ${1:value}: str = Environment.getOr(\"${2:VAR_NAME}\", \"${0:default}\")"
     ],
     "description": "Get environment variable with default"
+  },
+  "Interface": {
+    "prefix": "interface",
+    "body": [
+      "interface ${1:Name} =>",
+      "    fn ${2:method}(${3:params}): ${0:ReturnType}"
+    ],
+    "description": "Interface declaration"
+  },
+  "Using Statement": {
+    "prefix": "using",
+    "body": [
+      "using ${1:name} = ${2:expression} =>",
+      "    ${0:// scoped body}"
+    ],
+    "description": "Scoped resource management"
+  },
+  "Operator Overload": {
+    "prefix": "operator",
+    "body": [
+      "operator ${1:+}(${2:other}: ${3:Self}): ${4:Self} =>",
+      "    ${0:// implementation}"
+    ],
+    "description": "Operator overloading in struct"
+  },
+  "Serializable Struct": {
+    "prefix": "@serializable",
+    "body": [
+      "@serializable",
+      "struct ${1:Name} =>",
+      "    ${2:field}: ${3:str}",
+      "    $0"
+    ],
+    "description": "Struct with auto-generated encode/decode"
+  },
+  "Copy Of": {
+    "prefix": "copyof",
+    "body": [
+      "copyOf(${0:value})"
+    ],
+    "description": "Deep copy a value"
+  },
+  "Address Of": {
+    "prefix": "addressof",
+    "body": [
+      "addressOf(${0:value})"
+    ],
+    "description": "Get pointer to value"
+  },
+  "Value Of": {
+    "prefix": "valueof",
+    "body": [
+      "valueOf(${0:pointer})"
+    ],
+    "description": "Dereference a pointer"
+  },
+  "Type Of": {
+    "prefix": "typeof",
+    "body": [
+      "typeOf(${0:value})"
+    ],
+    "description": "Get type of a value"
+  },
+  "Exit": {
+    "prefix": "exit",
+    "body": [
+      "exit(${0:0})"
+    ],
+    "description": "Exit program with code"
+  },
+  "Generic Struct": {
+    "prefix": "structg",
+    "body": [
+      "struct ${1:Name}<${2:T}> =>",
+      "    ${3:field}: ${2:T}",
+      "    $0"
+    ],
+    "description": "Generic struct declaration"
+  },
+  "Generic Function": {
+    "prefix": "fng",
+    "body": [
+      "fn ${1:name}<${2:T}>(${3:item}: ${2:T}): ${4:void} =>",
+      "    ${0:// body}"
+    ],
+    "description": "Generic function declaration"
+  },
+  "Generic Constrained": {
+    "prefix": "fngc",
+    "body": [
+      "fn ${1:name}<${2:T}: ${3:Comparable}>(${4:a}: ${2:T}, ${5:b}: ${2:T}): ${6:int} =>",
+      "    ${0:// body}"
+    ],
+    "description": "Generic function with type constraint"
+  },
+  "Thread Detach": {
+    "prefix": "detach",
+    "body": [
+      "${1:handle}~"
+    ],
+    "description": "Detach a spawned thread"
+  },
+  "Sized Array Allocation": {
+    "prefix": "arralloc",
+    "body": [
+      "[${1:int}; ${0:size}]"
+    ],
+    "description": "Allocate sized array with defaults"
+  },
+  "Sized Array with Default": {
+    "prefix": "arrallocd",
+    "body": [
+      "[${1:int}; ${2:size} = ${0:default}]"
+    ],
+    "description": "Allocate sized array with custom default"
+  },
+  "Pragma Alias": {
+    "prefix": "pragmaalias",
+    "body": [
+      "#pragma alias \"${0:c_name}\""
+    ],
+    "description": "Set C name alias for next declaration"
+  },
+  "Implement Interface": {
+    "prefix": "impl",
+    "body": [
+      "fn ${1:method}(${2:other}: ${3:Self}): ${4:int} =>",
+      "    ${0:// implementation}"
+    ],
+    "description": "Implement an interface method in struct"
   }
 }

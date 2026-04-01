@@ -10,6 +10,7 @@
     { "include": "#imports" },
     { "include": "#type-declarations" },
     { "include": "#struct-declarations" },
+    { "include": "#interface-declarations" },
     { "include": "#function-declarations" },
     { "include": "#control-flow" },
     { "include": "#keywords" },
@@ -47,7 +48,7 @@
       "patterns": [
         {
           "name": "meta.preprocessor.pragma.sindarin",
-          "match": "^\\s*(#pragma)\\s+(include|link|source|pack)\\b(.*)$",
+          "match": "^\\s*(#pragma)\\s+(include|link|source|pack|alias)\\b(.*)$",
           "captures": {
             "1": { "name": "keyword.control.directive.pragma.sindarin" },
             "2": { "name": "keyword.control.directive.pragma.type.sindarin" },
@@ -108,6 +109,13 @@
             "1": { "name": "keyword.control.directive.decorator.sindarin" },
             "2": { "name": "entity.name.library.sindarin" }
           }
+        },
+        {
+          "name": "meta.decorator.serializable.sindarin",
+          "match": "(@serializable)\\b",
+          "captures": {
+            "1": { "name": "keyword.control.directive.decorator.sindarin" }
+          }
         }
       ]
     },
@@ -161,6 +169,18 @@
         }
       ]
     },
+    "interface-declarations": {
+      "patterns": [
+        {
+          "name": "meta.interface.declaration.sindarin",
+          "match": "\\b(interface)\\s+([A-Z][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.other.interface.sindarin" },
+            "2": { "name": "entity.name.type.interface.sindarin" }
+          }
+        }
+      ]
+    },
     "function-declarations": {
       "patterns": [
         {
@@ -196,6 +216,18 @@
             "1": { "name": "storage.modifier.private.sindarin" },
             "2": { "name": "keyword.other.fn.sindarin" },
             "3": { "name": "entity.name.function.sindarin" }
+          },
+          "end": "\\)",
+          "patterns": [
+            { "include": "#function-parameters" }
+          ]
+        },
+        {
+          "name": "meta.function.declaration.operator.sindarin",
+          "begin": "\\b(operator)\\s+(\\+|-|\\*|/|%|==|!=|<=|>=|<|>|\\[\\])\\s*\\(",
+          "beginCaptures": {
+            "1": { "name": "keyword.other.operator.sindarin" },
+            "2": { "name": "keyword.operator.overload.sindarin" }
           },
           "end": "\\)",
           "patterns": [
@@ -270,7 +302,7 @@
       "patterns": [
         {
           "name": "keyword.other.declaration.sindarin",
-          "match": "\\b(var|fn|struct|native|type|import|static|intercept)\\b"
+          "match": "\\b(var|fn|struct|interface|native|type|import|static|using|operator)\\b"
         },
         {
           "name": "storage.modifier.sindarin",
@@ -306,7 +338,7 @@
         },
         {
           "name": "keyword.operator.sizeof.sindarin",
-          "match": "\\b(sizeof|len|typeof)\\b"
+          "match": "\\b(sizeof|len|typeOf)\\b"
         }
       ]
     },
@@ -318,7 +350,7 @@
         },
         {
           "name": "storage.type.builtin.sindarin",
-          "match": "\\b(TextFile|BinaryFile|Date|Time|Process|Random|UUID|TcpListener|TcpStream|TlsStream|UdpSocket|DtlsConnection|SshConnection|QuicConnection|GitRepo|Interceptor|Env|Environment|Path|Directory|Bytes|Math|Crypto|Json|Xml|Yaml|ZLib|OS|Stdin|Stdout|Stderr)\\b"
+          "match": "\\b(TextFile|BinaryFile|Date|Time|Process|Random|UUID|TcpListener|TcpStream|TlsStream|UdpSocket|DtlsConnection|SshConnection|QuicConnection|GitRepo|Interceptor|Env|Environment|Path|Directory|Bytes|Math|Crypto|Json|Xml|Yaml|ZLib|OS|Stdin|Stdout|Stderr|Encoder|Decoder|FieldInfo|TypeInfo|Comparable|Hashable|Stringable|Copyable)\\b"
         },
         {
           "name": "storage.type.function.sindarin",
@@ -327,6 +359,33 @@
         {
           "name": "storage.type.array.sindarin",
           "match": "\\[\\s*\\d*\\s*\\]"
+        },
+        {
+          "name": "meta.type.generic.sindarin",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\s*<([^>]+)>",
+          "captures": {
+            "1": { "name": "storage.type.user.sindarin" },
+            "2": {
+              "patterns": [
+                {
+                  "name": "storage.type.parameter.sindarin",
+                  "match": "\\b[A-Z][a-zA-Z0-9_]*\\b"
+                },
+                {
+                  "name": "storage.type.primitive.sindarin",
+                  "match": "\\b(int|long|int32|uint|uint32|double|float|str|char|byte|bool|void|any)\\b"
+                },
+                {
+                  "name": "punctuation.separator.comma.sindarin",
+                  "match": ","
+                },
+                {
+                  "name": "keyword.operator.constraint.sindarin",
+                  "match": ":"
+                }
+              ]
+            }
+          }
         },
         {
           "name": "storage.type.user.sindarin",
@@ -444,11 +503,19 @@
         },
         {
           "name": "constant.numeric.float.sindarin",
-          "match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?\\b"
+          "match": "\\b\\d+\\.\\d+([eE][+-]?\\d+)?[fF]?\\b"
+        },
+        {
+          "name": "constant.numeric.float.suffix.sindarin",
+          "match": "\\b\\d+[fF]\\b"
         },
         {
           "name": "constant.numeric.integer.long.sindarin",
           "match": "\\b\\d+[lL]\\b"
+        },
+        {
+          "name": "constant.numeric.byte.sindarin",
+          "match": "\\b(?!0[bB])\\d+[bB]\\b"
         },
         {
           "name": "constant.numeric.integer.sindarin",
@@ -475,6 +542,10 @@
           "match": "&(?=[a-zA-Z_])"
         },
         {
+          "name": "keyword.operator.thread.detach.sindarin",
+          "match": "~(?=[a-zA-Z_)])"
+        },
+        {
           "name": "keyword.operator.thread.sync.sindarin",
           "match": "!"
         },
@@ -485,6 +556,14 @@
         {
           "name": "keyword.operator.logical.sindarin",
           "match": "(&&|\\|\\||!(?![a-zA-Z]))"
+        },
+        {
+          "name": "keyword.operator.bitwise.shift.sindarin",
+          "match": "(<<=|>>=|<<|>>)"
+        },
+        {
+          "name": "keyword.operator.bitwise.sindarin",
+          "match": "(\\|=|&=|\\^=|~|\\||&(?![a-zA-Z_])|\\^)"
         },
         {
           "name": "keyword.operator.arithmetic.sindarin",
@@ -532,7 +611,7 @@
       "patterns": [
         {
           "name": "support.function.builtin.sindarin",
-          "match": "\\b(print|println|printErr|printErrLn|readLine|panic|assert|len|typeof)\\s*\\("
+          "match": "\\b(print|println|printErr|printErrLn|readLine|panic|assert|len|typeOf|exit|to_string|copyOf|addressOf|valueOf|sizeof)\\s*\\("
         },
         {
           "name": "meta.function-call.method.sindarin",
